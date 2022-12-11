@@ -9,6 +9,7 @@ urlpatterns = [
     path('user/', include('accounts.urls')),
     path('posts/', include('posts.urls')),
     path('subjects/', include('subjects.urls')),
+    path('api/', include('table.urls')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

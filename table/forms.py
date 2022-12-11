@@ -15,10 +15,4 @@ class FacultySubjectForm(forms.ModelForm):
         widgets = {
             'subject': forms.Select(attrs={'class': 'form-select my-5'}),
         }
-    #  ----------------- validation template ----------------------
-    def clean_subject(self):
-        subject = self.cleaned_data['subject']
-        # if 'Django' not in title:
-        #     raise ValidationError("Validaton error here")
-        print("user in forms:", self.user)
-        return subject
+    #  ----------------- validation template --------------

@@ -2,7 +2,6 @@ from django.http.response import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views.generic.edit import DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 
 from .models import Subject

@@ -19,7 +19,7 @@ from django.core import serializers
 # Create your views here.
 class FacultySubjectCreateView(LoginRequiredMixin, CreateView):
     model = FacultySubject
-    success_url = "/me"
+    success_url = "/user/my-subjects"
     template_name = "table/faculty_subject_form.html"
     login_url = "/user/login"
     form_class = FacultySubjectForm
@@ -33,8 +33,16 @@ class FacultySubjectCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         print("Self object ", self.object.subject)
         existing = FacultySubject.objects.filter(subject = self.object.subject, user = self.request.user)
+        print('is it existing: ',existing)
         if existing:
             raise ValidationError('Invalid request. Subject is existing.')
         self.object.user = self.request.user
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
+
+class FacultySubjectDeleteView(LoginRequiredMixin, DeleteView):
+    model = FacultySubject
+    success_url = "/user/my-subjects"
+    template_name = "table/faculty_subject_delete.html"
+    login_url = "/user/login"
+ 

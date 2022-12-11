@@ -1,0 +1,91 @@
+  
+  <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+        <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <span class="fs-5 d-none d-sm-inline mt-4">Faculty Management System</span>
+        </a>
+        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+
+          {% comment %} -------------- UNIVERSAL ---------- {% endcomment %}
+            <li class="nav-item">
+                <a href="{% url 'home' %}" class="nav-link align-middle px-0">
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'post.list' %}" class="nav-link align-middle px-0">
+                  <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Announcements</span>
+              </a>
+            </li>
+           
+
+            {% comment %} ----------- ADMIN ----------- {% endcomment %}
+
+            {% if user.role == "1" %}
+              <li>
+                  <a href="{% url 'subject.list' %}"  class="nav-link px-0 align-middle">
+                      <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Subjects</span></a>
+              </li>
+            {% endif %}
+
+            {% if user.role != "1" %}
+            <li>
+                <a href="{% url 'my-subjects' %}"  class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">My Subjects</span></a>
+            </li>
+           {% endif %}
+
+          {% comment %} ----- not faculty ------ {% endcomment %}
+            {% if user.role != "5" %}
+              <li>
+                <a href="{% url 'post.create' %}"  class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Create Announcement</span></a>
+              </li>
+            {% endif %}
+
+            <li class="nav-item">
+              <a href="{% url 'logout' %}"class="nav-link align-middle px-0">
+                  <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Logout</span>
+              </a>
+            
+            </li>
+        </ul>
+
+        <hr>
+        <div class="dropdown pb-4">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{user.profile_image.url}}" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                <span class="d-none d-sm-inline mx-1">{{user.username}}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+            </ul>
+        </div>
+      
+    </div>
+</div>
+
+
+{% comment %} ================================= {% endcomment %}
+
+{% comment %} ----- universal ------ {% endcomment %}
+
+{% comment %} 
+<a href="{% url 'home' %}" class="btn btn-outline-light me-1">Home</a>
+<a href="{% url 'post.list' %}" class="btn btn-outline-light me-1">Announcements</a>
+<a href="{% url 'profile' %}" class="btn btn-outline-light me-1">Profile</a> {% endcomment %}
+
+
+   {% comment %} ----- admin ------ {% endcomment %}
+  {% comment %} {% if user.role == "1" %}
+     <a href="{% url 'subject.list' %}" class="btn btn-outline-light me-1">Subjects</a>
+   {% endif %} {% endcomment %}
+
+   {% comment %} <a href="{% url 'my-subjects' %}" class="btn btn-outline-light me-1">My Subjects</a>  {% endcomment %}
+
+   {% comment %} ----- not faculty ------ {% endcomment %}
+   {% comment %} {% if user.role != "5" %}
+     <a href="{% url 'post.create' %}" class="btn btn-outline-light me-1">Create Announcement</a>
+   {% endif %} {% endcomment %}

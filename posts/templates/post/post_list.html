@@ -1,7 +1,74 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="my-5">Announcements</h1>
+<h1 class="my-5 text-center">Announcements</h1>
+{% if user.role != "5" %}
+    <a href="{% url 'post.create' %}" class="btn btn-success" >Create Announcement</a>
+{% endif %}
+
+    <section class="p-4 d-flex justify-content-center w-100" style="background-color: #fbfbfb; border-radius: .5rem .5rem 0 0;">
+        <div class="card px-3 pt-3" style="max-width: 32rem">
+        <!-- News block -->
+        <div>
+            
+            {% for post in posts %}
+
+            {% if forloop.counter == 1 %}
+            <!-- Featured image -->
+            <div class="bg-image hover-overlay shadow-1-strong ripple rounded-5 mb-4" data-mdb-ripple-color="light">
+                <img src="/media/files/news.jpg" class="img-fluid">
+                <a href="{% url 'post.detail' pk=post.id %}">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+            </div>
+    
+            <!-- Article data -->
+            <div class="row mb-3">
+                <div class="col-6">
+                <a href="{% url 'post.detail' pk=post.id %}" class="text-info">
+                    <i class="fas fa-plane"></i>
+                    {{ post.user.first_name}} {{ post.user.last_name}}
+                </a>
+                </div>
+    
+                <div class="col-6 text-end">
+                <u>{{ post.created}}</u>
+                </div>
+            </div>
+    
+            <!-- Article title and description -->
+            <a href="{% url 'post.detail' pk=post.id %}" class="text-dark">
+                <h5>{{post.title}}  </h5>
+                <p>{{post.content|truncatechars:20}}</p>
+            </a>
+    
+            <hr>
+            
+            {% endif %}
+            
+            {% comment %} news {% endcomment %}
+            <a href="{% url 'post.detail' pk=post.id %}" class="text-dark">
+                <div class="row mb-4 border-bottom pb-2">
+                    <div class="col-3">
+                        <img src="/media/files/event.jpg" class="img-fluid shadow-1-strong rounded" alt="event">
+                    </div>
+                    <div class="col-9">
+                        <p class="mb-2"><strong>{{post.title}}</strong></p>
+                        <p>
+                            <u>{{post.created}}</u>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% comment %} 
+
 {% if user.role != "5" %}
     <a href="{% url 'post.create' %}" class="btn btn-success" >Create Announcement</a>
 {% endif %}
@@ -18,5 +85,4 @@
     </div>
     {% endfor %}
 
-</div>
-{% endblock %}
+</div> {% endcomment %}

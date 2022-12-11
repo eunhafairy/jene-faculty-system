@@ -2,7 +2,9 @@
 
 {% block content %}
 <h1 class="my-5">Announcements</h1>
-
+{% if user.role != "5" %}
+    <a href="{% url 'post.create' %}" class="btn btn-success" >Create Announcement</a>
+{% endif %}
 <div class="row row-cols3 g-2"> 
     {% for post in posts %}
     <div class="col"> 

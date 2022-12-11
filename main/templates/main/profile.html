@@ -1,10 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{user.email}}</h1>
-    <h1>{{user.username}}</h1>
-    <h1>{{user.first_name}}</h1>
-    <h1>{{user.last_name}}</h1>
-    <img src="{{user.profile_image.url}}">
+
+
+    <div class="card my-5" style="width: 25rem;">
+        <img src="{{user.profile_image.url}}" class="card-img-top" alt="profile picture">
+        <div class="card-body">
+            <h5 class="card-title">{{user.last_name}}, {{user.first_name}}</h5>
+            <p class="card-text">{{user.email}}</p>
+        </div>
+      
+        <ul class="list list-group">
+            {% for subject in subjects%}
+                <li class="list-group-item">{{subject.code}}</li>
+            {% endfor %}
+        </ul>
+        
+        <div class="card-body">
+            <a href={% url 'table.add.subject' %} class="btn btn-primary">Add Subject</a>
+        </div>
+    </div>
 
 {% endblock %}

@@ -13,8 +13,8 @@ class PostListView(LoginRequiredMixin, ListView):
     model = Post
     context_object_name = "posts"
     template_name = "post/post_list.html"
-    def get_queryset(self):
-        return self.request.user.posts.all()
+    # def get_queryset(self):
+    #     return self.request.user.posts.all()
     login_url = "/user/login"
 
 class PostDetailView(LoginRequiredMixin, DetailView):

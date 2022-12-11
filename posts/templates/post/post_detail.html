@@ -4,6 +4,8 @@
     <div class="border round">
         <h1 class="my-5">{{post.title}}</h1>
         <p>{{post.content}}</p>
+        <p>Made by: {{post.user}}</p>
+
     </div>
     <a href={% url 'post.update' pk=post.id %} class="btn btn-success my-5">Edit</a>
     <a href={% url 'post.delete' pk=post.id%} class="btn btn-danger my-5">Delete</a>

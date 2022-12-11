@@ -11,18 +11,30 @@
         <div class='ms-auto'>
 
       {% if user.is_authenticated %}
-      <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Home</a>
-      <a href="{% url 'post.list' %}" class="btn btn-outline-light me-1">Announcements</a>
-      <a href="{% url 'profile' %}" class="btn btn-outline-light me-1">Profile</a>
-      {% if user.role == "2" %}
-        <a href="{% url 'post.create' %}" class="btn btn-outline-light me-1">Create Announcement</a>
-      {% endif %}
-          <a href="{% url 'logout' %}" class="btn btn-outline-light me-1">Logout</a>
-     {% else %}
-          <a href="{% url 'login' %}" class="btn btn-outline-light me-1">Login</a>
-          <a href="{% url 'register' %}" class="btn btn-outline-light me-1">Register</a>
 
-     {% endif %}
+        {% comment %} ----- universal ------ {% endcomment %}
+        <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Home</a>
+        <a href="{% url 'post.list' %}" class="btn btn-outline-light me-1">Announcements</a>
+        <a href="{% url 'profile' %}" class="btn btn-outline-light me-1">Profile</a>
+        
+        {% comment %} ----- admin ------ {% endcomment %}
+        {% if user.role == "1" %}
+          <a href="{% url 'subject.list' %}" class="btn btn-outline-light me-1">Subjects</a>
+        {% endif %}
+
+        {% comment %} ----- not faculty ------ {% endcomment %}
+        {% if user.role != "5" %}
+          <a href="{% url 'post.create' %}" class="btn btn-outline-light me-1">Create Announcement</a>
+        {% endif %}
+
+        {% comment %} ----- universal ------ {% endcomment %}
+        <a href="{% url 'logout' %}" class="btn btn-outline-light me-1">Logout</a>
+
+      {% else %}
+            <a href="{% url 'login' %}" class="btn btn-outline-light me-1">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-outline-light me-1">Register</a>
+
+      {% endif %}
         {% comment %} 
 
             <a href="{% url 'register' %}" class="btn btn-outline-light me-1">Register</a>

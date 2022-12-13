@@ -18,6 +18,27 @@ class PostListView(LoginRequiredMixin, ListView):
     #     return self.request.user.posts.all()
     login_url = "/user/login"
 
+class PostListAllView(LoginRequiredMixin, ListView):
+    model = Post
+    context_object_name = "posts"
+    template_name = "post/post_list_all.html"
+
+    def get_queryset(self):
+        search = self.request.GET.get("q")
+        if search == "all": return super().get_queryset()
+        if search == "news": return super().get_queryset().filter(type="1")
+            
+        if search == "event":
+            return super().get_queryset().filter(type="2")
+        if search == "rsch":
+            return super().get_queryset().filter(type="3")
+        if search == "ext":
+            return super().get_queryset().filter(type="4")
+        return super().get_queryset()
+        
+        # return self.request.user.posts.all()
+    login_url = "/user/login"   
+
 class PostDetailView(LoginRequiredMixin, DetailView):
     model = Post
     context_object_name = "post"

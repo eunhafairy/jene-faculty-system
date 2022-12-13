@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h1 class="my-5 text-center">Announcements</h1>
 {% if user.role != "5" %}
     <a href="{% url 'post.create' %}" class="btn btn-success" >Create Announcement</a>
@@ -43,8 +44,8 @@
             </a>
     
             <hr>
+            {% else %}
             
-            {% endif %}
             
             {% comment %} news {% endcomment %}
             <a href="{% url 'post.detail' pk=post.id %}" class="text-dark">
@@ -60,7 +61,8 @@
                     </div>
                 </div>
             </a>
-            {% endfor %}
+            {% endif %}
+        {% endfor %}
         </div>
         </div>
     </section>

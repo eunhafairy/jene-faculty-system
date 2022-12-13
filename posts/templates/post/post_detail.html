@@ -7,8 +7,10 @@
             <p>{{post.content}}</p>
             <p>Made by: {{post.user}}</p>
         </div>
+        {% if post.user == user  %}
         <a href={% url 'post.update' pk=post.id %} class="btn btn-success my-5">Edit</a>
         <a href={% url 'post.delete' pk=post.id%} class="btn btn-danger my-5">Delete</a>
+        {% endif %}
         <a href={% url 'post.list' %} class="btn btn-secondary my-5">Cancel</a>
 </div>
 {% endblock %}

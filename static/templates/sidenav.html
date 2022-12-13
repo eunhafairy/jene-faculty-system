@@ -43,12 +43,15 @@
               </li>
             {% endif %}
 
-            <li class="nav-item">
-              <a href="{% url 'logout' %}"class="nav-link align-middle px-0">
-                  <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Logout</span>
-              </a>
+          {% comment %} ----- not faculty ------ {% endcomment %}
             
+            <li>
+              <a href="{% url 'research.list' %}"  class="nav-link px-0 align-middle">
+                  <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Research</span></a>
             </li>
+      
+
+
         </ul>
 
         <hr>

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
 from django.views.generic.edit import DeleteView
 from django.core.exceptions import ValidationError
 
@@ -35,10 +35,13 @@ class FacultySubjectCreateView(LoginRequiredMixin, CreateView):
         existing = FacultySubject.objects.filter(subject = self.object.subject, user = self.request.user)
         print('is it existing: ',existing)
         if existing:
-            raise ValidationError('Invalid request. Subject is existing.')
+            return redirect('table.error.exist')
         self.object.user = self.request.user
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
+
+class FacultySubjectAlreadyExists(LoginRequiredMixin, TemplateView):
+    template_name = "table/faculty_subject_already_exists.html"
 
 class FacultySubjectDeleteView(LoginRequiredMixin, DeleteView):
     model = FacultySubject

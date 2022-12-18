@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="my-5">Subjects</h1>
+<a href="{% url 'research.create' %}" class="btn btn-success" >Add Research</a>
+
+<div class="card">
+    <table class="table table-dark table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Faculty</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+    
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in research %}
+                <tr>
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.title}}</td>
+                    <td>{{item.user.first_name}} {{item.user.last_name}}</td>
+                    <td>{{item.get_status_display}}</td>
+                    <td>
+                        <a href="{% url 'research.update' pk=item.id %}" class="btn btn-success">Edit</a>
+                        <a href="{% url 'research.delete' pk=item.id %}" class="btn btn-danger">Delete</a>
+                    </td>
+    
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}

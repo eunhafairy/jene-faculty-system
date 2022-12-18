@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="my-5 text-center">Announcements</h1>
-{% if user.role != "5" %}
-    <a href="{% url 'post.create' %}" class="btn btn-success" >Create Announcement</a>
-{% endif %}
 
+<h1 class="my-5 text-center">Welcome {{user.first_name}}!</h1>
     <section class="p-4 d-flex justify-content-center w-100" style="background-color: #fbfbfb; border-radius: .5rem .5rem 0 0;">
-        <div class="card px-3 pt-3" style="max-width: 32rem">
+        <div class="card px-3 pt-3" style="max-width: 50rem">
         <!-- News block -->
         <div>
             
@@ -43,8 +40,8 @@
             </a>
     
             <hr>
+            {% else %}
             
-            {% endif %}
             
             {% comment %} news {% endcomment %}
             <a href="{% url 'post.detail' pk=post.id %}" class="text-dark">
@@ -60,7 +57,8 @@
                     </div>
                 </div>
             </a>
-            {% endfor %}
+            {% endif %}
+        {% endfor %}
         </div>
         </div>
     </section>

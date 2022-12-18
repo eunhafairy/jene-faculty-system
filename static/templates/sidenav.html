@@ -21,14 +21,18 @@
 
             {% comment %} ----------- ADMIN ----------- {% endcomment %}
 
-            {% if user.role == "1" %}
+            {% if request.user.role == "1" %}
               <li>
                   <a href="{% url 'subject.list' %}"  class="nav-link px-0 align-middle">
                       <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Subjects</span></a>
               </li>
+              <li>
+                <a href="{% url 'department.list' %}"  class="nav-link px-0 align-middle">
+                <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Departments</span></a>
+              </li>
             {% endif %}
 
-            {% if user.role != "1" %}
+            {% if request.user.role != "1" %}
             <li>
                 <a href="{% url 'my-subjects' %}"  class="nav-link px-0 align-middle">
                     <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">My Subjects</span></a>
@@ -41,16 +45,20 @@
               <a href="{% url 'research.list' %}"  class="nav-link px-0 align-middle">
                   <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Research</span></a>
             </li>
-      
-
-
+            
+            {% if request.user.department.all %}
+            <li>
+              <a href="{% url 'department.me' %}"  class="nav-link px-0 align-middle">
+                  <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">My Department</span></a>
+            </li>
+            {% endif %}
         </ul>
 
         <hr>
         <div class="dropdown pb-4">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{user.profile_image.url}}" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                <span class="d-none d-sm-inline mx-1">{{user.username}}</span>
+                <img src="{{request.user.profile_image.url}}" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                <span class="d-none d-sm-inline mx-1">{{request.user.username}}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                 <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
@@ -74,13 +82,13 @@
 
 
    {% comment %} ----- admin ------ {% endcomment %}
-  {% comment %} {% if user.role == "1" %}
+  {% comment %} {% if request.user.role == "1" %}
      <a href="{% url 'subject.list' %}" class="btn btn-outline-light me-1">Subjects</a>
    {% endif %} {% endcomment %}
 
    {% comment %} <a href="{% url 'my-subjects' %}" class="btn btn-outline-light me-1">My Subjects</a>  {% endcomment %}
 
    {% comment %} ----- not faculty ------ {% endcomment %}
-   {% comment %} {% if user.role != "5" %}
+   {% comment %} {% if request.user.role != "5" %}
      <a href="{% url 'post.create' %}" class="btn btn-outline-light me-1">Create Announcement</a>
    {% endif %} {% endcomment %}

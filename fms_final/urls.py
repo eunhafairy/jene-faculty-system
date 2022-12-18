@@ -11,6 +11,8 @@ urlpatterns = [
     path('subjects/', include('subjects.urls')),
     path('api/', include('table.urls')),
     path('research/', include('research.urls')),
+    path('department/', include('department.urls')),
+    
 
 
 

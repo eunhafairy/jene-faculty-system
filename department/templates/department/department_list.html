@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="my-5">Department</h1>
+<a href="{% url 'department.create' %}" class="btn btn-success" >Add Department</a>
+
+<div class="card">
+    <table class="table table-dark table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Department</th>
+            {% comment %} <th scope="col">Head</th> {% endcomment %}
+            <th scope="col">Description</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in departments %}
+                <tr>
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.name}}</td>
+                    {% comment %} <td>{{item.head.first_name}} {{item.head.last_name}}</td> {% endcomment %}
+                    <td>{{item.description|truncatechars:10}}</td>
+                    <td>
+                        {% comment %} <a href="{% url 'department.update' pk=item.id %}" class="btn btn-success">Edit</a>
+                        <a href="{% url 'department.delete' pk=item.id %}" class="btn btn-danger">Delete</a> {% endcomment %}
+                    </td>
+    
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}

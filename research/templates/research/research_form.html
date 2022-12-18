@@ -5,12 +5,12 @@
     <form method="POST"> {% csrf_token %}
         {{ form }}
         <button type="submit" class="btn btn-primary my-5">Submit</button>
-        <a href={% url 'my-subjects' %} class="btn btn-secondary my-5">Cancel</a>
+        <a href={% url 'research.list' %} class="btn btn-secondary my-5">Cancel</a>
     </form>
 
     {% if form.errors %}
-    <div class="alert alert-danger my-5">
-        {{form.errors.as_text}}
-    </div>
-{% endif %}
-{% endblock %}a
+        <div class="alert alert-danger my-5">
+            {{form.errors.as_text}}
+        </div>
+    {% endif %}
+{% endblock %}

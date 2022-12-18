@@ -5,13 +5,6 @@ from django.utils.translation import gettext_lazy as _
 import os
 # Create your models here.
 
-#
-# admin account : 
-# #
-# username: admin
-# password: django1234
-# 
-
 def path_and_rename(instance, filename):
     ext = filename.split('.')[-1]
     upload_to = 'profile_images/'

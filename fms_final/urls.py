@@ -10,6 +10,8 @@ urlpatterns = [
     path('posts/', include('posts.urls')),
     path('subjects/', include('subjects.urls')),
     path('api/', include('table.urls')),
+    path('research/', include('research.urls')),
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

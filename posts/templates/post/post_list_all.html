@@ -1,0 +1,55 @@
+{% extends "base.html" %} 
+{% block content %}
+    <h1 class="my-5 text-center">Announcements</h1>
+    {% if user.role != "5" %}
+        <a href="{% url 'post.create' %}" class="btn btn-success">Create Announcement</a>
+    {% endif %}
+
+    <a class="btn btn-primary" href="{% url 'post.list.all'%}?q=all">all</a>
+    <a class="btn btn-secondary" href="{% url 'post.list.all'%}?q=news" >news</a>    
+    <a class="btn btn-success" href="{% url 'post.list.all'%}?q=event">event</a>    
+    <a class="btn btn-warning" href="{% url 'post.list.all'%}?q=rsch">rsch</a>    
+    <a class="btn btn-danger" href="{% url 'post.list.all'%}?q=ext">ext</a>    
+
+    {%if posts %}
+        {% for post in posts %}
+            <div class="card mt-2">
+                <div class="card-header">{{post.get_type_display}}</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{post.title}}</h5>
+                    <p class="card-text">{{post.content|truncatechars:50}}</p>
+                    <a href="{% url 'post.detail' pk=post.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+    
+    <div class="alert alert-warning" role="alert">
+        No announcements.
+      </div>
+    
+    {% endif %}
+ {% endblock %} 
+ 
+ 
+ {% comment %} {% if user.role != "5" %}
+<a href="{% url 'post.create' %}" class="btn btn-success"
+  >Create Announcement</a
+>
+{% endif %}
+<div class="row row-cols3 g-2">
+  {% for post in posts %}
+  <div class="col">
+    <div class="p-3 border">
+      <a
+        href="{% url 'post.detail' pk=post.id %}"
+        class="text-dark text-decoration-non"
+      >
+        <h3>{{post.title}}</h3>
+      </a>
+      {{post.content|truncatechars:10}}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endcomment %}

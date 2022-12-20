@@ -64,12 +64,6 @@ class DepartmentCreateView(LoginRequiredMixin, CreateView):
             return redirect('home')
         return super().get(request, *args, **kwargs)
 
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.user = self.request.user
-        User.objects.filter(pk=self.object.head.id).update(is_department_head=True)
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
 
 
 # class ResearchUpdateView(LoginRequiredMixin, UpdateView):

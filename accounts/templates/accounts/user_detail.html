@@ -14,21 +14,10 @@
             {{e}}
             {% endfor %}
             </h5>
-        <p class="card-text">{{user.email}}</p>
-        <p class="card-text">{{user.dept}}</p>
-       
             {% for item in subjects %}
             <span class="badge text-bg-dark">{{item.code}}</span>
             {% endfor %}
-           
-    </div>
- 
-        <a href="{% url 'user.update' pk=user.id %}" class="btn btn-success mt-1">Edit</a>
-        <a href="{% url 'user.password' %}" class="btn btn-warning mt-1">Change Password</a>
-        <a href="{% url 'user.delete' pk=user.id %}" class="btn btn-danger mt-1">Delete</a>
-    
-   
-
-    </div>
+        <p class="card-text">{{user.email}}</p>
+        <p class="card-text">{{user.dept}}</p>
 
 {% endblock %}

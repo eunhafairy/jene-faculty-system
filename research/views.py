@@ -16,10 +16,10 @@ class ResearchListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         print('myrole', self.request.user.role)
-        if self.request.user.role != "1":
-            return self.request.user.research.all()
-        else:
+        if self.request.user.role == "1" or self.request.user.role == "2":
             return super().get_queryset()
+        else:
+            return self.request.user.research.all()
             
 
     # authorization

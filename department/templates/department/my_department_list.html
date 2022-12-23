@@ -16,9 +16,10 @@
         </thead>
         <tbody>
             {% for item in users %}
-                <tr>
+            <tr>
+                  
                     <th scope="row">{{item.id}}</th>
-                    <td>{{item.first_name}} </td>
+                    <td><a href="{% url 'user.detail' pk=item.id %}"> {{item.first_name}}</a></td>
                     <td>{{item.last_name}}</td>
                     <td>
                         <a href="{% url 'user.update' pk=item.id %}" class="btn btn-success">Edit</a>

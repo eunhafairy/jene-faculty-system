@@ -12,7 +12,7 @@ class SubjectForm(forms.ModelForm):
         }
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control my-5'}),
-            'code': forms.TextInput(attrs={'class': 'form-select my-5'}),
+            'code': forms.TextInput(attrs={'class': 'form-control my-5'}),
         }
     #  ----------------- validation template ----------------------
     # def clean_title(self):

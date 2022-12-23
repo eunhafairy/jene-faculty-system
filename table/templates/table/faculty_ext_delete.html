@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post"> {% csrf_token %}
+    <p>Are you sure you want to delete?</p>
+    <p>This action cannot be undone</p>
+    <input type="submit" class="btn btn-danger" value="Confirm"/>
+    <a href={% url 'my-extensions' %} class="btn btn-secondary my-5">Cancel</a>
+{% endblock %}

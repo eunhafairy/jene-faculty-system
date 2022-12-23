@@ -34,10 +34,10 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
     login_url = "/user/login"
     
     # authorization
-    def get(self, request, *args, **kwargs):
-        if self.request.user.role != "1":
-            return redirect('home')
-        return super().get(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     if self.request.user.role != "1":
+    #         return redirect('home')
+    #     return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

@@ -52,7 +52,8 @@ class CustomUserCreationForm(UserCreationForm):
             dept = self.cleaned_data['dept'],
             first_name = self.cleaned_data['first_name'],
             last_name = self.cleaned_data['last_name'],
-            profile_image = self.cleaned_data['profile_image'],
+            profile_image = self.cleaned_data['profile_image']
+
         )  
         return user  
 
@@ -63,6 +64,7 @@ class UpdateUserForm(forms.ModelForm):
     email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={"class": "form-control my-5", "type":"email"}))  
     first_name = forms.CharField(label="First name", max_length=100, widget=forms.TextInput(attrs={"class": "form-control my-5"}))
     dept = forms.Select(attrs={'class': 'form-select my-5'}),
+
     last_name = forms.CharField(label="Last name", max_length=100, widget=forms.TextInput(attrs={"class": "form-control my-5"}))
     profile_image = forms.ImageField(label="Profile Image")
 

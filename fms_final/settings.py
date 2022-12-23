@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'subjects',
     'research',
     'table',
+    'extensions',
     'department',
 
 

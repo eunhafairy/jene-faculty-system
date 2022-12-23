@@ -5,6 +5,8 @@
 {% block content %}
     <h1>My Subjects</h1>
     <a href={% url 'table.add.subject' %} class="btn btn-primary">Add Subject</a>
+    <a href={% url 'subject.create' %} class="btn btn-success">Create Subject</a>
+
     <table class="table table-dark table-hover">
         <thead>
         <tr>

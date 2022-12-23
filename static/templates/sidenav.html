@@ -45,6 +45,20 @@
               <a href="{% url 'research.list' %}"  class="nav-link px-0 align-middle">
                   <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Research</span></a>
             </li>
+
+            {% if request.user.role == "1" or request.user.role == "3"  %}
+              <li>
+                <a href="{% url 'extension.list' %}"  class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Extensions</span></a>
+              </li>
+            {% endif %}
+
+            <li>
+              <a href="{% url 'my-extensions' %}"  class="nav-link px-0 align-middle">
+                  <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">My Extensions</span></a>
+            </li>
+            
+            
             
             {% if request.user.department.all %}
             <li>

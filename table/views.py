@@ -2,19 +2,12 @@ from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
 from django.views.generic.edit import DeleteView
-from django.core.exceptions import ValidationError
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from .models import FacultySubject
-from .forms import FacultySubjectForm
-
-from django.core.exceptions import BadRequest
-
-
-import json
-from django.core import serializers
+from .models import FacultySubject, FacultyExtension
+from .forms import FacultySubjectForm, FacultyExtensionForm
 
 # Create your views here.
 class FacultySubjectCreateView(LoginRequiredMixin, CreateView):
@@ -46,6 +39,37 @@ class FacultySubjectAlreadyExists(LoginRequiredMixin, TemplateView):
 class FacultySubjectDeleteView(LoginRequiredMixin, DeleteView):
     model = FacultySubject
     success_url = "/user/my-subjects"
+    template_name = "table/faculty_subject_delete.html"
+    login_url = "/user/login"
+ 
+
+class FacultyExtensionCreateView(LoginRequiredMixin, CreateView):
+    model = FacultyExtension
+    success_url = "/user/my-extensions"
+    template_name = "table/faculty_ext_form.html"
+    login_url = "/user/login"
+    form_class = FacultyExtensionForm
+    # authorization
+    # def get(self, request, *args, **kwargs):
+    #     if self.request.user.role != "1":
+    #         return redirect('home')
+    #     return super().get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        print("Self object ", self.object.ext)
+        existing = FacultyExtension.objects.filter(ext = self.object.ext, user = self.request.user)
+        print('ext is existing: ',existing)
+        if existing:
+            return redirect('table.error.exist')
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class FacultyExtensionDeleteView(LoginRequiredMixin, DeleteView):
+    model = FacultyExtension
+    success_url = "/user/my-extensions"
     template_name = "table/faculty_subject_delete.html"
     login_url = "/user/login"
  

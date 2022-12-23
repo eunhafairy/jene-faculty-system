@@ -30,6 +30,16 @@
                 <a href="{% url 'department.list' %}"  class="nav-link px-0 align-middle">
                 <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Departments</span></a>
               </li>
+
+              <li>
+                <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Reports</span> </a>
+                    <ul class="collapse nav flex-column ms-2" id="submenu3" data-bs-parent="#menu">
+                      <li class="w-100">
+                          <a href="{% url 'table.reports.users' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">User</span></a>
+                      </li>
+                   </ul>
+            </li>
             {% endif %}
 
             {% if request.user.role != "1" %}

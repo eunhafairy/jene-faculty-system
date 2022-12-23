@@ -7,6 +7,8 @@ urlpatterns = [
     path("already-exists", views.FacultySubjectAlreadyExists.as_view(), name="table.error.exist"),
     path("add-ext", views.FacultyExtensionCreateView.as_view(), name="table.add.ext"),
     path("delete-ext/<int:pk>", views.FacultyExtensionDeleteView.as_view(), name="table.delete.ext"),
+    path("reports/users", views.UserReportsListView.as_view(), name="table.reports.users"),
+    path("reports/users/generate", views.generateUserDocument, name="table.generate.users"),
   
 
 ]

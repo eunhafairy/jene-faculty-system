@@ -8,6 +8,7 @@ from .models import Extension
 from accounts.models import User
 from .forms import ExtensionForm
 from logs.models import Log
+from table.models import FacultyExtension
 
 # Create your views here.
 
@@ -23,6 +24,27 @@ class ExtensionListView(LoginRequiredMixin, ListView):
             return super().get(request, *args, **kwargs)
         print("not authorized", self.request.user.role)
         return redirect('my-extensions')
+
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        filter = self.request.GET.get("filter")
+        users = ""
+        users_all  = ""
+        ext = ""
+        print("list of caulty extensions", users)
+        if filter:
+            users = FacultyExtension.objects.all().filter(ext_id=filter)
+            ext = Extension.objects.get(id=filter)
+        else:
+            users_all = User.objects.all()
+        context['users'] = users
+        context['users_all'] = users_all
+
+        context['ext'] = ext
+        return context
+
+        # return self.request.user.posts.all()
+    login_url = "/user/login"   
 
 
 class ExtensionsCreateView(LoginRequiredMixin, CreateView):

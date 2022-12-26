@@ -269,7 +269,7 @@ def generatDepartmentDocument(request):
         row_num = 0
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
-        columns = ['Department Code', 'Department Name', 'Department Description']
+        columns = ['Code', 'Name', 'Description']
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num], font_style)
         font_style = xlwt.XFStyle()
@@ -277,8 +277,7 @@ def generatDepartmentDocument(request):
             row_num = row_num + 1
             ws.write(row_num, 0,department.get('code'), font_style)
             ws.write(row_num, 1,department.get('name'), font_style)
-            ws.write(row_num, 1,department.get('description'), font_style)
-
+            ws.write(row_num, 2,department.get('description'), font_style)
         wb.save(response)
     return response
 
@@ -379,7 +378,6 @@ def generateExtensionDocument(request):
             ws.write(row_num, col_num, columns[col_num], font_style)
         font_style = xlwt.XFStyle()
         for item in extensions:
-           
             row_num = row_num + 1
             ws.write(row_num, 0,item.get('code'), font_style)
             ws.write(row_num, 1,item.get('name'), font_style)
@@ -425,9 +423,9 @@ def generateLogsDocument(request):
         font_style = xlwt.XFStyle()
         for log in logs:
             row_num = row_num + 1
-            ws.write(row_num, 0,log.get('log_code'), font_style)
-            ws.write(row_num, 1,log.get('log_message'), font_style)
-            ws.write(row_num, 2,log.get('log_time'), font_style)
+            ws.write(row_num, 0, log.get('log_code'), font_style)
+            ws.write(row_num, 1, log.get('log_message'), font_style)
+            ws.write(row_num, 2, str(log.get('log_time')), font_style)
         wb.save(response)
 
     return response

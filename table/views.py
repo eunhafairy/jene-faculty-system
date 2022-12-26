@@ -15,9 +15,12 @@ from accounts.reports import UserReport
 from django.http import HttpResponse
 
 from accounts.models import User
+from logs.models import Log
+
 from research.models import Research
 from department.models import Department
 from extensions.models import Extension
+from logs.models import Log
 
 from subjects.models import Subject
 
@@ -46,6 +49,7 @@ class FacultySubjectCreateView(LoginRequiredMixin, CreateView):
             return redirect('table.error.exist')
         self.object.user = self.request.user
         self.object.save()
+        Log(log_code='subject_assign', log_message=f'[{ self.request.user.username}] assigned the subject [{ self.object.subject.code}]').save()
         return HttpResponseRedirect(self.get_success_url())
 
 class FacultySubjectAlreadyExists(LoginRequiredMixin, TemplateView):
@@ -56,6 +60,13 @@ class FacultySubjectDeleteView(LoginRequiredMixin, DeleteView):
     success_url = "/user/my-subjects"
     template_name = "table/faculty_subject_delete.html"
     login_url = "/user/login"
+    def post(self, request, *args, **kwargs):
+        target = FacultySubject.objects.get(id=self.kwargs["pk"])
+        code = target.subject.code 
+        user = self.request.user.username
+        Log(log_code='subject_remove', log_message=f'[{user}] removed the extension [{code}]').save()
+        return super().post(request, *args, **kwargs)
+ 
  
 
 class FacultyExtensionCreateView(LoginRequiredMixin, CreateView):
@@ -79,14 +90,25 @@ class FacultyExtensionCreateView(LoginRequiredMixin, CreateView):
             return redirect('table.error.exist')
         self.object.user = self.request.user
         self.object.save()
+        # logs
+        code = self.object.ext.code 
+        username = self.request.user.username
+        if self.get_form().is_valid():
+            Log(log_code='extension_assign', log_message=f'[{username}] assigned extension [{code}] to themselves').save()
         return HttpResponseRedirect(self.get_success_url())
 
 
 class FacultyExtensionDeleteView(LoginRequiredMixin, DeleteView):
     model = FacultyExtension
     success_url = "/user/my-extensions"
-    template_name = "table/faculty_subject_delete.html"
+    template_name = "table/faculty_ext_delete.html"
     login_url = "/user/login"
+    def post(self, request, *args, **kwargs):
+        target = FacultyExtension.objects.get(id=self.kwargs["pk"])
+        code = target.ext.code 
+        user = self.request.user.username
+        Log(log_code='department_delete', log_message=f'[{user}] removed the extension [{code}]').save()
+        return super().post(request, *args, **kwargs)
  
 
 class UserReportsListView(LoginRequiredMixin, ListView):
@@ -107,6 +129,12 @@ class SubjectsReportsListView(LoginRequiredMixin, ListView):
     model = Subject
     template_name="table/subject_reports.html"
     context_object_name = "subjects"
+    login_url = "/user/login"
+
+class LogsReportsListView(LoginRequiredMixin, ListView):
+    model = Log
+    template_name="table/log_list.html"
+    context_object_name = "logs"
     login_url = "/user/login"
 
 class DepartmentReportsListView(LoginRequiredMixin, ListView):
@@ -356,6 +384,50 @@ def generateExtensionDocument(request):
             ws.write(row_num, 0,item.get('code'), font_style)
             ws.write(row_num, 1,item.get('name'), font_style)
             ws.write(row_num, 2,item.get('description'), font_style)
+        wb.save(response)
+
+    return response
+
+
+def generateLogsDocument(request):
+ 
+    logs = Log.objects.all().values()
+    ext = request.GET.get("ext")
+    if ext == "csv":
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="log_report.csv"'
+        writer = csv.writer(response, csv.excel)
+        response.write(u'\ufeff'.encode('utf8'))
+        writer.writerow([
+            smart_str(u"Code"),
+            smart_str(u"Message"),
+            smart_str(u"Time"),
+
+        ])
+        for log in logs:
+            writer.writerow([
+                smart_str(log.get('log_code')),
+                smart_str(log.get('log_message')),
+                smart_str(log.get('log_time')),
+            ])
+
+    elif ext == "xls":
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="log_report.xls"'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet("sheet1")
+        row_num = 0
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        columns = ['Code', 'Message', 'Time' ]
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+        font_style = xlwt.XFStyle()
+        for log in logs:
+            row_num = row_num + 1
+            ws.write(row_num, 0,log.get('log_code'), font_style)
+            ws.write(row_num, 1,log.get('log_message'), font_style)
+            ws.write(row_num, 2,log.get('log_time'), font_style)
         wb.save(response)
 
     return response

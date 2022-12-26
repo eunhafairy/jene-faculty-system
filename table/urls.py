@@ -17,6 +17,8 @@ urlpatterns = [
     path("reports/research/generate", views.generateResearchDocument, name="table.generate.research"),
    path("reports/extensions", views.ExtensionReportsListView.as_view(), name="table.reports.extensions"),
     path("reports/extensions/generate", views.generateExtensionDocument, name="table.generate.extensions"),
+   path("reports/logs", views.LogsReportsListView.as_view(), name="table.reports.logs"),
+    path("reports/logs/generate", views.generateLogsDocument, name="table.generate.logs"),
   
 
 ]

@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'table',
     'extensions',
     'department',
-    'reports'
+    'reports',
+    'logs',
+
 
 
 

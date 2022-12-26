@@ -12,7 +12,7 @@ urlpatterns = [
     path('api/', include('table.urls')),
     path('research/', include('research.urls')),
     path('department/', include('department.urls')),
-    path('extension/', include('extensions.urls')),
+    path('extension', include('extensions.urls')),
 
 
 

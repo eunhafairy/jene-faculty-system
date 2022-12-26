@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+    <div class="card my-5" style="width: 25rem">
+        <img
+            src="{{user.profile_image.url}}"
+            class="card-img-top"
+            alt="profile picture"
+        />
+    <div class="card-body">
+        <h5 class="card-title">{{user.last_name}}, {{user.first_name}} 
+            {% for e in ext %}
+            {{e}}
+            {% endfor %}
+            </h5>
+            {% for item in subjects %}
+            <span class="badge text-bg-dark">{{item.code}}</span>
+            {% endfor %}
+        <p class="card-text">{{user.email}}</p>
+        <p class="card-text">{{user.dept}}</p>
+
+{% endblock %}

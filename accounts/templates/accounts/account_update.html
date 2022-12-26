@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+ <form method="post" enctype='multipart/form-data' style="text-align: left; margin: 0 auto; width: 600px;"> {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" class="btn btn-success my-5" value="Update">
+    <a href={% url 'profile' %} class="btn btn-secondary my-5">Cancel</a>
+ </form>
+
+
+    {% if form.errors %}
+        <div class="alert alert-danger my-5">
+            {{form.errors.as_text}}
+        </div>
+    {% endif %}
+{% endblock %}

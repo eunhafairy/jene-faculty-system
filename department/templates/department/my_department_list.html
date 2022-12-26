@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="my-5">{{ user.dept }}</h1>
+
+<div class="card">
+    <table class="table table-dark table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Actions</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in users %}
+            <tr>
+                  
+                    <th scope="row">{{item.id}}</th>
+                    <td><a href="{% url 'user.detail' pk=item.id %}"> {{item.first_name}}</a></td>
+                    <td>{{item.last_name}}</td>
+                    <td>
+                        <a href="{% url 'user.update' pk=item.id %}" class="btn btn-success">Edit</a>
+                        {% if request.user != item %}
+                        <a href="{% url 'user.delete' pk=item.id %}" class="btn btn-danger">Delete</a>
+                        {% endif %}
+                    </td>
+                
+    
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}

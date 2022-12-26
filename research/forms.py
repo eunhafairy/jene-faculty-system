@@ -8,7 +8,7 @@ class ResearchForm(forms.ModelForm):
         fields = ('title', 'status')
         labels = {
             'title': 'Research Title',
-            'status': 'Statusw',
+            'status': 'Status',
         }
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control my-5'}),

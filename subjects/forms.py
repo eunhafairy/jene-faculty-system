@@ -5,14 +5,14 @@ from .models import Subject
 class SubjectForm(forms.ModelForm):
     class Meta:
         model=Subject
-        fields = ('name', 'code')
+        fields = ('code', 'name')
         labels = {
-            'code': 'Course Code',
             'name': 'Course Name',
+            'code': 'Course Code',
         }
         widgets = {
+            'code': forms.TextInput(attrs={'class': 'form-control my-5'}),
             'name': forms.TextInput(attrs={'class': 'form-control my-5'}),
-            'code': forms.TextInput(attrs={'class': 'form-select my-5'}),
         }
     #  ----------------- validation template ----------------------
     # def clean_title(self):

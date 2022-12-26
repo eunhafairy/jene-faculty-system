@@ -24,7 +24,8 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=50, unique=True, blank=False)
     password = models.CharField(max_length=100, blank=False)
-    email = models.EmailField(max_length=100, blank=False)
+    email = models.EmailField(max_length=100, blank=False, unique=True)
+    dept = models.ForeignKey('department.Department', on_delete=models.SET_NULL, related_name="department", null=True)
     is_archived = models.BooleanField(default=False)
     profile_image = models.ImageField(upload_to=path_and_rename, default='profile_images/default_profile_img.jpg', null=True, blank=True)
     role = models.CharField(

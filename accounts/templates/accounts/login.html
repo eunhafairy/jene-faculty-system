@@ -5,4 +5,11 @@
     {{form.as_p}}
     <button type="submit" class="btn btn-success my-5">Login</button>
  </form>
+
+ 
+ {% if form.errors %}
+ <div class="alert alert-danger my-5">
+     {{form.errors.as_text}}
+ </div>
+{% endif %}
 {% endblock %}

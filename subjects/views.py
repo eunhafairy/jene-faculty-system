@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 
 from .models import Subject
 from .forms import SubjectForm
+from logs.models import Log
 # Create your views here.
 
 class SubjectListView(LoginRequiredMixin, ListView):
@@ -19,13 +20,6 @@ class SubjectListView(LoginRequiredMixin, ListView):
             return redirect('home')
         return super().get(request, *args, **kwargs)
 
-
-# class PostDetailView(LoginRequiredMixin, DetailView):
-#     model = Post
-#     context_object_name = "post"
-#     template_name = "post/post_detail.html"
-#     login_url = "/user/login"
-
 class SubjectCreateView(LoginRequiredMixin, CreateView):
     model = Subject
     form_class = SubjectForm
@@ -33,16 +27,11 @@ class SubjectCreateView(LoginRequiredMixin, CreateView):
     template_name = "subjects/subject_form.html"
     login_url = "/user/login"
     
-    # authorization
-    def get(self, request, *args, **kwargs):
-        if self.request.user.role != "1":
-            return redirect('home')
-        return super().get(request, *args, **kwargs)
-
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
+        Log(log_code='subject_create', log_message=f'[{self.request.user.username}] created subject [{self.object.name}]').save()
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -56,6 +45,13 @@ class SubjectUpdateView(LoginRequiredMixin, UpdateView):
         if self.request.user.role != "1":
             return redirect('home')
         return super().get(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        name = self.get_form()['name'].value()
+        username = self.request.user.username
+        if self.get_form().is_valid():
+            print("updated subject", name, username, self.get_form().is_valid())
+            Log(log_code='subject_update', log_message=f'[{username}] updated subject [{name}]').save()
+        return super().post(request, *args, **kwargs)
 
 class SubjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Subject
@@ -66,4 +62,8 @@ class SubjectDeleteView(LoginRequiredMixin, DeleteView):
         if self.request.user.role != "1":
             return redirect('home')
         return super().get(request, *args, **kwargs)
-   
+    def post(self, request, *args, **kwargs):
+        target = Subject.objects.get(id=self.kwargs["pk"])
+        user = self.request.user.username
+        Log(log_code='subject_delete', log_message=f'[{user}] deleted the post [{target.name}]').save()
+        return super().post(request, *args, **kwargs)

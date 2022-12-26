@@ -66,16 +66,16 @@ class DepartmentCreateView(LoginRequiredMixin, CreateView):
 
 
 
-# class ResearchUpdateView(LoginRequiredMixin, UpdateView):
-#     model = Research
-#     form_class = ResearchForm
-#     success_url = "/research"
-#     template_name = "research/research_form.html"
-#     login_url = "/user/login"
+class DepartmenthUpdateView(LoginRequiredMixin, UpdateView):
+    model = Department
+    form_class = DepartmentForm
+    success_url = "/department"
+    template_name = "department/department_form.html"
+    login_url = "/user/login"
 
-# class ResearchDeleteView(LoginRequiredMixin, DeleteView):
-#     model = Research
-#     success_url = "/research"
-#     template_name = "research/research_delete.html"
-#     login_url = "/user/login"
+class DepartmentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Department
+    success_url = "/department"
+    template_name = "department/department_delete.html"
+    login_url = "/user/login"
    

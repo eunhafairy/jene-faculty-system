@@ -33,11 +33,23 @@
 
               <li>
                 <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Reports</span> </a>
+                    <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Reports &#8595</span> </a>
                     <ul class="collapse nav flex-column ms-2" id="submenu3" data-bs-parent="#menu">
                       <li class="w-100">
-                          <a href="{% url 'table.reports.users' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">User</span></a>
+                          <a href="{% url 'table.reports.users' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">User</span></a>
                       </li>
+                      <li class="w-100">
+                        <a href="{% url 'table.reports.subjects' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">Subjects</span></a>
+                     </li>
+                     <li class="w-100">
+                      <a href="{% url 'table.reports.departments' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">Departments</span></a>
+                     </li>
+                     <li class="w-100">
+                      <a href="{% url 'table.reports.research' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">Research</span></a>
+                     </li>
+                     <li class="w-100">
+                      <a href="{% url 'table.reports.extensions' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">Extensions</span></a>
+                     </li>
                    </ul>
             </li>
             {% endif %}

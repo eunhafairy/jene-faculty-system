@@ -13,11 +13,18 @@ from .forms import FacultySubjectForm, FacultyExtensionForm
 from django.conf import settings
 from accounts.reports import UserReport
 from django.http import HttpResponse
+
 from accounts.models import User
+from research.models import Research
+from department.models import Department
+from extensions.models import Extension
+
+from subjects.models import Subject
+
 import csv
 from django.utils.encoding import smart_str
-from io import StringIO
 import csv# Create your views here.
+
 class FacultySubjectCreateView(LoginRequiredMixin, CreateView):
     model = FacultySubject
     success_url = "/user/my-subjects"
@@ -96,6 +103,30 @@ class UserReportsListView(LoginRequiredMixin, ListView):
         return super().get_queryset()
     login_url = "/user/login"
 
+class SubjectsReportsListView(LoginRequiredMixin, ListView):
+    model = Subject
+    template_name="table/subject_reports.html"
+    context_object_name = "subjects"
+    login_url = "/user/login"
+
+class DepartmentReportsListView(LoginRequiredMixin, ListView):
+    model = Department
+    template_name="table/department_reports.html"
+    context_object_name = "departments"
+    login_url = "/user/login"
+
+class ResearchReportsListView(LoginRequiredMixin, ListView):
+    model = Research
+    template_name="table/research_reports.html"
+    context_object_name = "research"
+    login_url = "/user/login"
+
+class ExtensionReportsListView(LoginRequiredMixin, ListView):
+    model = Extension
+    template_name="table/extension_reports.html"
+    context_object_name = "extensions"
+    login_url = "/user/login"
+
 def generateUserDocument(request):
     role = request.GET.get('role')
     print(role)
@@ -142,8 +173,189 @@ def generateUserDocument(request):
 
     return response
 
-def querySet_to_list(qs):
-    """
-    this will return python list<dict>
-    """
-    return [dict(q) for q in qs]
+def generateSubjectDocument(request):
+    subjects = Subject.objects.all().values()
+    ext = request.GET.get("ext")
+    if ext == "csv":
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="subject_report.csv"'
+        writer = csv.writer(response, csv.excel)
+        response.write(u'\ufeff'.encode('utf8'))
+        writer.writerow([
+            smart_str(u"Course Code"),
+            smart_str(u"Course Name")
+        ])
+        for subject in subjects:
+            writer.writerow([
+                smart_str(subject.get('code')),
+                smart_str(subject.get('name')),
+            ])
+
+    elif ext == "xls":
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="subjectg_report.xls"'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet("sheet1")
+        row_num = 0
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        columns = ['Course Code', 'Course Name']
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+        font_style = xlwt.XFStyle()
+        for subject in subjects:
+            row_num = row_num + 1
+            ws.write(row_num, 0,subject.get('code'), font_style)
+            ws.write(row_num, 1,subject.get('name'), font_style)
+        wb.save(response)
+    return response
+
+
+def generatDepartmentDocument(request):
+    departments = Department.objects.all().values()
+    ext = request.GET.get("ext")
+    if ext == "csv":
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="department_report.csv"'
+        writer = csv.writer(response, csv.excel)
+        response.write(u'\ufeff'.encode('utf8'))
+        writer.writerow([
+            smart_str(u"Department Code"),
+            smart_str(u"Department Name"),
+            smart_str(u"Department Description")
+
+        ])
+        for department in departments:
+            writer.writerow([
+                smart_str(department.get('code')),
+                smart_str(department.get('name')),
+                smart_str(department.get('description')),
+
+            ])
+
+    elif ext == "xls":
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="department_report.xls"'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet("sheet1")
+        row_num = 0
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        columns = ['Department Code', 'Department Name', 'Department Description']
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+        font_style = xlwt.XFStyle()
+        for department in departments:
+            row_num = row_num + 1
+            ws.write(row_num, 0,department.get('code'), font_style)
+            ws.write(row_num, 1,department.get('name'), font_style)
+            ws.write(row_num, 1,department.get('description'), font_style)
+
+        wb.save(response)
+    return response
+
+
+def generateResearchDocument(request):
+   
+    research = Research.objects.all().values()
+    ext = request.GET.get("ext")
+    if ext == "csv":
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="research_report.csv"'
+        writer = csv.writer(response, csv.excel)
+        response.write(u'\ufeff'.encode('utf8'))
+        writer.writerow([
+            smart_str(u"Title"),
+            smart_str(u"Faculty"),
+            smart_str(u"Status"),
+        ])
+        for item in research:
+  
+            status = ""
+            if (item.get('status') == 1):
+                status ="Ongoing"
+            elif (item.get('status') == 2):
+                status ="Presented"
+            else:
+                status ="Published"
+            user = User.objects.get(id=item.get('user_id'))
+
+            writer.writerow([
+                smart_str(item.get('title')),
+                smart_str(user.first_name + ' ' + user.last_name),
+                smart_str(status),
+            ])
+
+    elif ext == "xls":
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="research_report.xls"'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet("sheet1")
+        row_num = 0
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        columns = ['Title', 'Faculty', 'Status' ]
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+        font_style = xlwt.XFStyle()
+        for item in research:
+            status = ""
+            if (item.get('status') == 1):
+                status ="Ongoing"
+            elif (item.get('status') == 2):
+                status ="Presented"
+            else:
+                status ="Published"
+            user = User.objects.get(id=item.get('user_id'))
+            row_num = row_num + 1
+            ws.write(row_num, 0,item.get('title'), font_style)
+            ws.write(row_num, 1,user.first_name + ' ' + user.last_name, font_style)
+            ws.write(row_num, 2,status, font_style)
+        wb.save(response)
+
+    return response
+
+
+
+def generateExtensionDocument(request):
+   
+    extensions = Extension.objects.all().values()
+    ext = request.GET.get("ext")
+    if ext == "csv":
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="ext_report.csv"'
+        writer = csv.writer(response, csv.excel)
+        response.write(u'\ufeff'.encode('utf8'))
+        writer.writerow([
+            smart_str(u"Code"),
+            smart_str(u"Name"),
+            smart_str(u"Description"),
+        ])
+        for item in extensions:
+            writer.writerow([
+                smart_str(item.get('code')),
+                smart_str(item.get('name')),
+                smart_str(item.get('description')),
+            ])
+
+    elif ext == "xls":
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="ext_report.xls"'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet("sheet1")
+        row_num = 0
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        columns = ['Code', 'Name', 'Description' ]
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+        font_style = xlwt.XFStyle()
+        for item in extensions:
+           
+            row_num = row_num + 1
+            ws.write(row_num, 0,item.get('code'), font_style)
+            ws.write(row_num, 1,item.get('name'), font_style)
+            ws.write(row_num, 2,item.get('description'), font_style)
+        wb.save(response)
+
+    return response

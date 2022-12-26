@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="my-5">User Reports</h1>
+<a class="btn btn-primary" href="{% url 'table.generate.users' %}?ext=csv" >Generate CSV</a>
+<a class="btn btn-success" href="{% url 'table.generate.users' %}?ext=xls" >Generate Excel</a>
+<br>
+
+<a href="{% url 'table.reports.users' %}" > <span class="badge text-bg-secondary">All</span></a>
+<a href="{% url 'table.reports.users' %}?role=4" > <span class="badge text-bg-primary">Department Head</span></a>
+<a href="{% url 'table.reports.users' %}?role=3" > <span class="badge text-bg-warning">Extension Coordinator</span></a>
+<a href="{% url 'table.reports.users' %}?role=2" > <span class="badge text-bg-danger">Research Coordinator</span></a>
+<a href="{% url 'table.reports.users' %}?role=5"> <span class="badge text-bg-success">Faculty</span></a>
+
+
+
+
+
+
+
+<div class="card">
+    <table class="table table-dark table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Email</th>
+
+            <th scope="col">Actions</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in users %}
+            <tr>
+                  
+                    <th scope="row">{{item.id}}</th>
+                    <td><a href="{% url 'user.detail' pk=item.id %}"> {{item.first_name}}</a></td>
+                    <td>{{item.last_name}}</td>
+                    <td>{{item.email}}</td>
+
+                    <td>
+                        <a href="{% url 'user.update' pk=item.id %}" class="btn btn-success">Edit</a>
+                        {% if request.user != item %}
+                        <a href="{% url 'user.delete' pk=item.id %}" class="btn btn-danger">Delete</a>
+                        {% endif %}
+                    </td>
+                
+    
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}

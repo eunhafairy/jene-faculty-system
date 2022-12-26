@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="my-5">Subjects</h1>
+<h1 class="my-5">Research</h1>
 <a href="{% url 'research.create' %}" class="btn btn-success" >Add Research</a>
-
+{% if  request.user.role == "2" %}
+<a class="btn btn-primary" href="{% url 'table.generate.research' %}?ext=csv" >Generate CSV</a>
+<a class="btn btn-success" href="{% url 'table.generate.research' %}?ext=xls" >Generate Excel</a>
+{% endif %}
 <div class="card">
     <table class="table table-dark table-hover">
         <thead>

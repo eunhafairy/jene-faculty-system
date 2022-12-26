@@ -21,14 +21,43 @@
 
             {% comment %} ----------- ADMIN ----------- {% endcomment %}
 
-            {% if user.role == "1" %}
+            {% if request.user.role == "1" %}
               <li>
                   <a href="{% url 'subject.list' %}"  class="nav-link px-0 align-middle">
                       <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Subjects</span></a>
               </li>
+              <li>
+                <a href="{% url 'department.list' %}"  class="nav-link px-0 align-middle">
+                <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Departments</span></a>
+              </li>
+
+              <li>
+                <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Reports &#8595</span> </a>
+                    <ul class="collapse nav flex-column ms-2" id="submenu3" data-bs-parent="#menu">
+                      <li class="w-100">
+                          <a href="{% url 'table.reports.users' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">User</span></a>
+                      </li>
+                      <li class="w-100">
+                        <a href="{% url 'table.reports.subjects' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">Subjects</span></a>
+                     </li>
+                     <li class="w-100">
+                      <a href="{% url 'table.reports.departments' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">Departments</span></a>
+                     </li>
+                     <li class="w-100">
+                      <a href="{% url 'table.reports.research' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">Research</span></a>
+                     </li>
+                     <li class="w-100">
+                      <a href="{% url 'table.reports.extensions' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">Extensions</span></a>
+                     </li>
+                     <li class="w-100">
+                      <a href="{% url 'table.reports.logs' %}" class="nav-link px-0 link-info"> <span class="d-none d-sm-inline">Logs</span></a>
+                     </li>
+                   </ul>
+            </li>
             {% endif %}
 
-            {% if user.role != "1" %}
+            {% if request.user.role != "1" %}
             <li>
                 <a href="{% url 'my-subjects' %}"  class="nav-link px-0 align-middle">
                     <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">My Subjects</span></a>
@@ -41,16 +70,34 @@
               <a href="{% url 'research.list' %}"  class="nav-link px-0 align-middle">
                   <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Research</span></a>
             </li>
-      
 
+            {% if request.user.role == "1" or request.user.role == "3"  %}
+              <li>
+                <a href="{% url 'extension.list' %}"  class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Extensions</span></a>
+              </li>
+            {% endif %}
 
+            <li>
+              <a href="{% url 'my-extensions' %}"  class="nav-link px-0 align-middle">
+                  <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">My Extensions</span></a>
+            </li>
+            
+            
+            
+            {% if request.user.department.all %}
+            <li>
+              <a href="{% url 'department.me' %}"  class="nav-link px-0 align-middle">
+                  <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">My Department</span></a>
+            </li>
+            {% endif %}
         </ul>
 
         <hr>
         <div class="dropdown pb-4">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{user.profile_image.url}}" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                <span class="d-none d-sm-inline mx-1">{{user.username}}</span>
+                <img src="{{request.user.profile_image.url}}" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                <span class="d-none d-sm-inline mx-1">{{request.user.username}}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                 <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
@@ -74,13 +121,13 @@
 
 
    {% comment %} ----- admin ------ {% endcomment %}
-  {% comment %} {% if user.role == "1" %}
+  {% comment %} {% if request.user.role == "1" %}
      <a href="{% url 'subject.list' %}" class="btn btn-outline-light me-1">Subjects</a>
    {% endif %} {% endcomment %}
 
    {% comment %} <a href="{% url 'my-subjects' %}" class="btn btn-outline-light me-1">My Subjects</a>  {% endcomment %}
 
    {% comment %} ----- not faculty ------ {% endcomment %}
-   {% comment %} {% if user.role != "5" %}
+   {% comment %} {% if request.user.role != "5" %}
      <a href="{% url 'post.create' %}" class="btn btn-outline-light me-1">Create Announcement</a>
    {% endif %} {% endcomment %}

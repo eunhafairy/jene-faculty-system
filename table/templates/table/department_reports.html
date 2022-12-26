@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="my-5">Department Reports</h1>
+<a class="btn btn-primary" href="{% url 'table.generate.departments' %}?ext=csv" >Generate CSV</a>
+<a class="btn btn-success" href="{% url 'table.generate.departments' %}?ext=xls" >Generate Excel</a>
+<br>
+
+<div class="card">
+  <table class="table table-dark table-hover">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Code</th>
+
+          <th scope="col">Name</th>
+          {% comment %} <th scope="col">Head</th> {% endcomment %}
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for item in departments %}
+              <tr>
+                  <th scope="row">{{item.id}}</th>
+                  <td>{{item.code}}</td>
+                  
+                  <td>{{item.name|truncatechars:20}}</td>
+                  {% comment %} <td>{{item.head.first_name}} {{item.head.last_name}}</td> {% endcomment %}
+                  <td>{{item.description|truncatechars:10}}</td>
+  
+              </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+</div>
+
+{% endblock %}

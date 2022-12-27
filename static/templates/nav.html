@@ -1,7 +1,10 @@
-<nav class='navbar navbar-dark bg-dark'> 
-    <div class='ms-auto'>
-    {% comment %} ----- universal ------ {% endcomment %}
-    <a href="{% url 'login' %}" class="btn btn-outline-light me-1">Login</a>
-    <a href="{% url 'register' %}" class="btn btn-outline-light me-1">Register</a>
+    <header class="mb-auto">
+    <div>
+      <h3 class="float-md-start mb-0">FMS</h3>
+      <nav class="nav nav-masthead justify-content-center float-md-end ">
+        <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="{% url 'main' %}">Home</a>
+        <a class="nav-link fw-bold py-1 px-0" href="{% url 'login' %}">Login</a>
+        <a class="nav-link fw-bold py-1 px-0" href="{% url 'register' %}">Register</a>
+      </nav>
     </div>
-  </nav>
+  </header>

@@ -7,13 +7,13 @@ from django.utils.translation import gettext_lazy as _
 
 class CustomUserCreationForm(UserCreationForm):
     
-    username = forms.CharField(label='Username', min_length=5, max_length=50, widget=forms.TextInput(attrs={"class": "form-control my-5"}))  
+    username = forms.CharField(label='Username', max_length=50, widget=forms.TextInput(attrs={"class": "form-control my-5"}))  
     email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={"class": "form-control my-5", "type":"email"}))  
     password1 = forms.CharField(label='Password', max_length=100, widget=forms.PasswordInput(attrs={"class": "form-control my-5"}))  
     password2 = forms.CharField(label='Confirm password', max_length=100, widget=forms.PasswordInput(attrs={"class": "form-control my-5"}))  
-    first_name = forms.CharField(label="First name", max_length=100, widget=forms.TextInput(attrs={"class": "form-control my-5"}))
+    first_name = forms.CharField(label="First name", max_length=100, widget=forms.TextInput(attrs={"class": "form-control my-5", "onkeydown": "return /[a-z]/i.test(event.key)"}))
     dept = forms.Select(attrs={'class': 'form-select my-5'}),
-    last_name = forms.CharField(label="Last name", max_length=100, widget=forms.TextInput(attrs={"class": "form-control my-5"}))
+    last_name = forms.CharField(label="Last name", max_length=100, widget=forms.TextInput(attrs={"class": "form-control my-5", "onkeydown": "return /[a-z]/i.test(event.key)"}))
     profile_image = forms.ImageField(label="Profile Image")
 
     class Meta:

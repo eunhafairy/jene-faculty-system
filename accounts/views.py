@@ -70,7 +70,7 @@ class SignUpView(CreateView):
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UpdateUserForm
-    success_url = "/"
+    success_url = "/home"
     template_name = "accounts/account_update.html"
     login_url = "/user/login"
     def post(self, request, *args, **kwargs):
@@ -85,7 +85,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
-    success_url = "/"
+    success_url = "/home"
     template_name = "accounts/account_delete.html"
     login_url = "/user/login"
     def post(self, request, *args, **kwargs):
